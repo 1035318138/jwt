@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
