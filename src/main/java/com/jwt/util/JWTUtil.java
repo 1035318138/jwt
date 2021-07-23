@@ -1,5 +1,6 @@
 package com.jwt.util;
 
+import com.alibaba.fastjson.JSON;
 import com.jwt.dto.TokenVO;
 import com.jwt.exception.ErrorCode;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -34,7 +35,7 @@ public class JWTUtil {
 
     public  String createToken(TokenVO vo) {
 
-        Claims claims = Jwts.claims().setSubject(vo.getName());
+        Claims claims = Jwts.claims().setSubject(JSON.toJSONString(vo));
 
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
