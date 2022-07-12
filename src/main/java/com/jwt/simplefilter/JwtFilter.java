@@ -1,6 +1,13 @@
 package com.jwt.simplefilter;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.jwt.dto.TokenVO;
+import com.jwt.exception.ErrorCode;
 import com.jwt.util.JWTUtil;
+import com.jwt.util.LoginAccountSecurity;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -23,8 +30,15 @@ public class JwtFilter implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         String token = request.getHeader("token");
-        Boolean flag = !StringUtils.isEmpty(token) ? jwtUtil.validateToken(token) : Boolean.FALSE;
-        if(flag){
+        Jws<Claims> claimsJws = null;
+        try {
+            claimsJws = jwtUtil.validateToken(token);
+        }catch (Exception e){
+            throw new ErrorCode("token validate failed");
+        }
+        if(claimsJws !=null){
+            TokenVO vo = JSON.toJavaObject(JSONObject.parseObject(claimsJws.getBody().get("sub").toString()), TokenVO.class);
+            LoginAccountSecurity.setLoginAccountDetail(vo);
             return true;
         }
         response.sendRedirect("https://www.baidu.com");//登录页面

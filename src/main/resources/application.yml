@@ -5,9 +5,9 @@ spring:
     name: files   # jwt
   datasource:     #数据库相关配置
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://114.215.191.40:3306/test?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://124.223.77.57:3306/test?useUnicode=true&characterEncoding=UTF-8
     username: root
-    password: root
+    password: 123456
 
 jwt:
   token:

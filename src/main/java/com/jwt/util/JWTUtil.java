@@ -3,6 +3,7 @@ package com.jwt.util;
 import com.alibaba.fastjson.JSON;
 import com.jwt.dto.TokenVO;
 import com.jwt.exception.ErrorCode;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -48,13 +49,8 @@ public class JWTUtil {
                 .compact();
     }
 
-    public  Boolean validateToken(String token) throws ErrorCode {
-        try {
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-        } catch (Exception e) {
-            throw new ErrorCode("token validate failed");
-        }
-        return Boolean.TRUE;
+    public  Jws<Claims> validateToken(String token) throws ErrorCode {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
     }
 
 }
